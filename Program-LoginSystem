@@ -1,0 +1,65 @@
+from tkinter import *  # the * means importing everything inside, no need to put the import name before the function like (Tkinter.Tk())
+
+# instantiates tkinter and makes it usable
+master = Tk()
+master.title('Login/Signup')
+
+# creates the window with the name 'win'
+win = Canvas(master, width=500, height=400)
+win.pack()
+
+# creates the entry box for user input and the size of the box within the window
+user = Entry(master)  # sets this object as an input
+win.create_window(250, 140, window=user)  # (x.cor,y.cor within the window)
+u1 = Label(master, text='Username:', fg='black')
+win.create_window(156, 140, window=u1)
+
+passw = Entry(master)
+win.create_window(250, 165, window=passw)
+p1 = Label(master, text='Password:', fg='black')
+win.create_window(156, 165, window=p1)
+
+text = StringVar()
+text.set('')
+# functions for login and signup
+users = {'guest': 'guest'}
+label = Label(master, textvariable=text)
+label.pack()
+
+
+# function for the login button and what it will do for many different variables
+def login():
+    username = user.get()
+    password = passw.get()
+
+    if username in users:
+        if password == users[username]:
+            text.set('Login Successful!')
+            user.delete(0, 'end')
+            passw.delete(0, 'end')
+        else:
+            text.set('Incorrect Password')
+
+    else:
+        text.set('Username does not exist in our database, please sign up')
+
+# function for the signup button and all the variable occurrences
+def signup():
+    username = user.get()
+    password = passw.get()
+
+    if username not in users:
+        users[username] = password
+        text.set('Signup Successful!')
+        user.delete(0, 'end')
+        passw.delete(0, 'end')
+    else:
+        text.set('This account is already signed up')
+
+#buttons
+login_button = Button(text='Login', command=login)
+win.create_window(200, 240, window=login_button)
+signup_button = Button(text='Signup', command=signup)
+win.create_window(300, 240, window=signup_button, )
+#will continue to run until you exit out
+master.mainloop()
